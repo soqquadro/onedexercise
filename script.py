@@ -84,6 +84,16 @@ class fun:
             return 'RHD'
         else:
             return 'LHD'
+    # adapt condition to target data
+    def std_condition(self,txt):
+        if txt == 'Occasion':
+            return 'Used'
+        elif txt == 'Antique car':
+            return 'Original Condition'
+        elif txt == 'Demonstration model':
+            return 'Original Condition'
+        else:
+            return txt
 
     # format mileage in the required format
     def mileage_conv(self,val):
@@ -191,6 +201,7 @@ cts = pd.DataFrame.from_dict(f.getCountry(cities))
 normalized = dw.enrichdata(normalized,bodies,'BodyTypeText','carType')
 normalized = dw.enrichdata(normalized,conditions,'ConditionTypeText','condition')
 normalized = dw.enrichdata(normalized,cols,'BodyColorText','color')
+normalized.condition = normalized.condition.apply(f.std_condition)
 
 # adding country code
 normalized = pd.merge(normalized, cts, how='left', left_on=['City'], right_on=['Name'])
@@ -202,6 +213,7 @@ normalized['fuel_consumption_unit'] = normalized.ConsumptionTotalText.apply(f.co
 normalized['mileage_unit'] = normalized.ConsumptionTotalText.apply(f.mil)
 normalized.drop(columns={'ConsumptionTotalText'},inplace=True)
 normalized['drive'] = normalized.country.apply(f.drive)
+
 
 normalized.rename(columns={
     'MakeText':'make',
