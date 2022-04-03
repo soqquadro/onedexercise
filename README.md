@@ -1,6 +1,6 @@
 # Supplier Cars data integration
 
-a script that takes supplier_car.json and saves it into excel extemp.xlsx <br /> 
+script.py takes supplier_car.json and saves it into excel extemp.xlsx <br /> 
 extemp.xlsx contains 3 subsheets: <br />
 - preprocessing
 - normalisation
